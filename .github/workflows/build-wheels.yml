@@ -29,6 +29,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get version from git tag
+        id: get_version
+        shell: bash
+        run: |
+          VERSION=$(git describe --tags --exact-match 2>/dev/null || echo "")
+          if [ -n "$VERSION" ]; then
+            VERSION=${VERSION#v}
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "version=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up QEMU (for ARM builds on Linux)
         if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v3
@@ -40,6 +52,7 @@ jobs:
         env:
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_ENVIRONMENT: SETUPTOOLS_SCM_PRETEND_VERSION=${{ steps.get_version.outputs.version }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -54,8 +67,22 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get version from git tag
+        id: get_version
+        shell: bash
+        run: |
+          VERSION=$(git describe --tags --exact-match 2>/dev/null || echo "")
+          if [ -n "$VERSION" ]; then
+            VERSION=${VERSION#v}
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "version=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build sdist
         run: pipx run build --sdist
+        env:
+          SETUPTOOLS_SCM_PRETEND_VERSION: ${{ steps.get_version.outputs.version }}
 
       - uses: actions/upload-artifact@v4
         with:
