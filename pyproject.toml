@@ -1,6 +1,6 @@
 [project]
 name = "basex-python"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Fast library for encoding/decoding data in custom base-N alphabets of any size"
 authors = [{name = "yokotoka"}]
 readme = "README.md"
@@ -28,6 +28,7 @@ Repository = "https://github.com/yokotoka/basex"
 [build-system]
 requires = [
     "setuptools>=45",
+    "setuptools-scm[toml]>=6.2",
     "wheel",
     "Cython>=3.0.0",
 ]
@@ -35,6 +36,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools_scm]
+write_to = "src/basex/_version.py"
 
 [dependency-groups]
 dev = [
