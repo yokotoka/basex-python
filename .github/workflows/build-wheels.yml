@@ -57,7 +57,7 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
     environment:
       name: pypi
-      url: https://pypi.org/p/basex
+      url: https://pypi.org/p/basex-python
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
 
