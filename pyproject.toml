@@ -44,8 +44,10 @@ dependencies = ["hatch-cython>=0.5.0"]
 directives = { boundscheck = false, wraparound = false, cdivision = true, language_level = 3 }
 # Compiler optimization flags
 compile_args = ["-O3"]
-# Include .pyx files for compilation
-include = ["src/basex/_basex.pyx"]
+
+# Explicitly specify .pyx files to compile
+[tool.hatch.build.targets.wheel.hooks.cython.options.files]
+targets = ["src/basex/_basex.pyx"]
 
 [dependency-groups]
 dev = [
