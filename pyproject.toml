@@ -32,6 +32,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build]
 sources = ["src"]
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/basex"]
+
 [tool.hatch.build.targets.wheel.hooks.cython]
 dependencies = ["hatch-cython>=0.5.0"]
 
