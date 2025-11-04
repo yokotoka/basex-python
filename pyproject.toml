@@ -26,28 +26,15 @@ Homepage = "https://github.com/yokotoka/basex"
 Repository = "https://github.com/yokotoka/basex"
 
 [build-system]
-requires = ["hatchling", "hatch-cython>=0.5.0", "Cython>=3.0.0"]
-build-backend = "hatchling.build"
+requires = [
+    "setuptools>=45",
+    "wheel",
+    "Cython>=3.0.0",
+]
+build-backend = "setuptools.build_meta"
 
-[tool.hatch.build]
-sources = ["src"]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/basex"]
-macos-max-compat = false  # CRITICAL: Required for macOS M1/Intel runners with Cython
-
-[tool.hatch.build.targets.wheel.hooks.cython]
-dependencies = ["hatch-cython>=0.5.0"]
-
-[tool.hatch.build.targets.wheel.hooks.cython.options]
-# Cython compiler directives for performance
-directives = { boundscheck = false, wraparound = false, cdivision = true, language_level = 3 }
-# Compiler optimization flags
-compile_args = ["-O3"]
-
-# Explicitly specify .pyx files to compile
-[tool.hatch.build.targets.wheel.hooks.cython.options.files]
-targets = ["src/basex/_basex.pyx"]
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [dependency-groups]
 dev = [
